@@ -4,21 +4,23 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdlib.h>
 
-// #define RINGBUFFER_SIZE 5000
-// typedef uint32_t Item_t;
+typedef struct
+{
+    void *buffer;
+    void *bufferEnd;
+    size_t bufferSize;
+    size_t itemSize;
+    void *head;
+    void *tail;
+    size_t count;
+}Ringbuffer_t;
 
-// typedef struct
-// {
-//     Item_t items[RINGBUFFER_SIZE];
-//     size_t head;
-//     size_t tail;
-//     size_t count;
-// }Ringbuffer_t;
-
-// void RingbufferInit(Ringbuffer_t *buff);
-// bool RingbufferIsEmpty(Ringbuffer_t *buff);
-// void RingbufferAddItem(Ringbuffer_t *buff, Item_t item);
-// bool RingbufferReceiveItem(Ringbuffer_t *buff, Item_t *item);
+bool RingbufferInit(Ringbuffer_t *buff, size_t buffSize, size_t itemSize);
+void RingbufferDeInit(Ringbuffer_t *buff);
+bool RingbufferIsEmpty(Ringbuffer_t *buff);
+void RingbufferPushItem(Ringbuffer_t *buff, void *item);
+bool RingbufferGetItem(Ringbuffer_t *buff, void *item);
 
 #endif /* RINGBUFFERGENERIC_H */
