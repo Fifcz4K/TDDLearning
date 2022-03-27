@@ -11,4 +11,5 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 enable_testing()
 
 add_subdirectory(googletest)
-add_subdirectory(Ringbuffer)
+# add_subdirectory(Ringbuffer)
+add_subdirectory(Communication)

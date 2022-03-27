@@ -5,8 +5,8 @@ extern "C"
     #include "../RingbufferGeneric.h"
 }
 
-#define BUFFER_SIZE (100000)
-typedef float item_t;
+#define BUFFER_SIZE (500)
+typedef uint32_t item_t;
 #define ITEM_SIZE (sizeof(item_t))
 
 struct RingbufferGenericTests : public ::testing::Test
