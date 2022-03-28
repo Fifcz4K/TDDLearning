@@ -9,6 +9,10 @@
 #include "../../Ringbuffer/RingbufferGeneric/RingbufferGeneric.h"
 
 #define FRAME_PREAMBLE 0xDEADBEEF
+#define PREAMBLE_BYTE_1 ((uint8_t)(FRAME_PREAMBLE >> 24))
+#define PREAMBLE_BYTE_2 ((uint8_t)(FRAME_PREAMBLE >> 16))
+#define PREAMBLE_BYTE_3 ((uint8_t)(FRAME_PREAMBLE >> 8))
+#define PREAMBLE_BYTE_4 ((uint8_t)FRAME_PREAMBLE)
 
 typedef enum
 {
