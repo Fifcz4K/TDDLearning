@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 
-set(This TDDLearning)
+set(This LearningGoogleTest)
 
 project(${This} C CXX)
 
@@ -11,5 +11,5 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 enable_testing()
 
 add_subdirectory(googletest)
-# add_subdirectory(Ringbuffer)
+add_subdirectory(Ringbuffer)
 add_subdirectory(Communication)
