@@ -34,7 +34,6 @@ char* Convert(int number)
     {
         while(number >= convertArray[i].number)
         {
-            printf("number: %d --- number to add: %d\n", number, convertArray[i].number);
             addAfterString(RomanNumber, convertArray[i].letter);
             number -= convertArray[i].number;
         }
