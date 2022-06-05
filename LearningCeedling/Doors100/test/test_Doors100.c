@@ -23,6 +23,6 @@ void test_Doors(void)
 
     TEST_ASSERT_EQUAL_STRING("@##@####@######@########@##########@############@##############@################@##################@", GetDoorsState(100));
 
-    TEST_ASSERT_EQUAL_STRING("@", GetDoorsState(1));    
+    TEST_ASSERT_EQUAL_STRING("@", GetDoorsState(1));
 }
 
