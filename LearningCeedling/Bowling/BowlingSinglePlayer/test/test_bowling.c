@@ -111,3 +111,115 @@ void test_2_strikes_in_a_row(void)
     TEST_ASSERT_EQUAL(expected, Score());
 }
 
+void test_spare_in_last_round(void)
+{
+    uint16_t expected = 0;
+
+    for(uint8_t i = 0; i < 9; i++)
+    {
+        Turn(0, 0);
+    }
+
+    Roll(2);
+    Roll(8);
+    Roll(4);
+
+    expected = 2 + 8 + 4;
+
+    TEST_ASSERT_EQUAL(expected, Score());
+}
+
+void test_strike_in_last_round(void)
+{
+    uint16_t expected = 0;
+
+    for(uint8_t i = 0; i < 9; i++)
+    {
+        Turn(0, 0);
+    }
+
+    Roll(10);
+    Roll(10);
+    Roll(4);
+
+    expected = 10 + 10 + 4;
+
+    TEST_ASSERT_EQUAL(expected, Score());
+}
+
+void test_random_game_1(void)
+{
+    Turn(5, 5);
+    Turn(4, 0);
+    Turn(8, 1);
+    Turn(10, 0);
+    Turn(0, 10);
+    Turn(10, 0);
+    Turn(10, 0);
+    Turn(10, 0);
+    Turn(4, 6);
+
+    Roll(10);
+    Roll(10);
+    Roll(5);
+
+    TEST_ASSERT_EQUAL(186, Score());
+}
+
+void test_only_9_0_game(void)
+{
+    Turn(9, 0);
+    Turn(9, 0);
+    Turn(9, 0);
+    Turn(9, 0);
+    Turn(9, 0);
+    Turn(9, 0);
+    Turn(9, 0);
+    Turn(9, 0);
+    Turn(9, 0);
+
+    Roll(9);
+    Roll(0);
+
+    TEST_ASSERT_EQUAL(90, Score());
+}
+
+void test_only_9_spare_game(void)
+{
+    Turn(9, 1);
+    Turn(9, 1);
+    Turn(9, 1);
+    Turn(9, 1);
+    Turn(9, 1);
+    Turn(9, 1);
+    Turn(9, 1);
+    Turn(9, 1);
+    Turn(9, 1);
+
+    Roll(9);
+    Roll(1);
+    Roll(9);
+
+    TEST_ASSERT_EQUAL(190, Score());
+}
+
+void test_perfect_game(void)
+{
+    Turn(10, 0);
+    Turn(10, 0);
+    Turn(10, 0);
+    Turn(10, 0);
+    Turn(10, 0);
+    Turn(10, 0);
+    Turn(10, 0);
+    Turn(10, 0);
+    Turn(10, 0);
+    Turn(10, 0);
+
+    Roll(10);
+    Roll(10);
+    Roll(10);
+
+    TEST_ASSERT_EQUAL(300, Score());
+}
+

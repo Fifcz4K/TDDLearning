@@ -47,16 +47,37 @@ static void AddStrikeBonuses(uint8_t index)
     }
 }
 
+static void AddLastRoundBonuses(void)
+{
+    if(rollsArray[LAST_REGULAR_ROLL - 1] == 10)
+    {
+        score += rollsArray[BONUS_ROLL];
+    }
+
+    else if((rollsArray[LAST_REGULAR_ROLL - 1] + rollsArray[LAST_REGULAR_ROLL]) == 10)
+    {
+        score += rollsArray[BONUS_ROLL];
+    }
+}
+
+static void AddSpareAndStrikeBonuses(uint8_t index)
+{
+    if(index < LAST_REGULAR_ROLL - 1)
+    {
+        AddSpareBonuses(index);
+        AddStrikeBonuses(index);
+    }
+}
+
 uint16_t Score(void)
 {
     for(uint8_t i = 0; i < ROLLS_WITHOUT_BONUSES; i++)
     {
         score += rollsArray[i];
-
-        AddSpareBonuses(i);
-        AddStrikeBonuses(i);
+        AddSpareAndStrikeBonuses(i);        
     }
 
+    AddLastRoundBonuses();
 
     return score;
 }
