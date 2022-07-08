@@ -83,5 +83,31 @@ void test_2_spares_in_a_row(void)
     TEST_ASSERT_EQUAL(expected, Score());
 }
 
+void test_strike(void)
+{
+    uint16_t expected = 0;
 
+    expected += Turn(10, 0);
+    expected += Turn(2, 4);
+
+    //Bonus for strike
+    expected += 2 + 4;
+
+    TEST_ASSERT_EQUAL(expected, Score());
+}
+
+void test_2_strikes_in_a_row(void)
+{
+    uint16_t expected = 0;
+
+    expected += Turn(10, 0);
+    expected += Turn(10, 0);
+    expected += Turn(1, 2);
+
+    //Bonus for strike
+    expected += 10 + 1;
+    expected += 1 + 2;
+
+    TEST_ASSERT_EQUAL(expected, Score());
+}
 

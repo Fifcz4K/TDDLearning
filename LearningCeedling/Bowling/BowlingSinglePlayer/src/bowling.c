@@ -14,22 +14,14 @@ void GameReset(void)
 void Roll(uint8_t pins)
 {
     rollsArray[rollNumber] = pins;
-    
-    if(rollNumber % 2 == 0 && pins == 10)
-    {
-        rollNumber += 2;
-    }
-    else
-    {
-        rollNumber++;
-    }
+    rollNumber++;
 }
 
 static void AddSpareBonuses(uint8_t index)
 {
     if(index % 2 == 0)
     {
-        if(rollsArray[index] + rollsArray[index + 1] == 10)
+        if(rollsArray[index] + rollsArray[index + 1] == 10 && rollsArray[index] != 10)
         {
             score += rollsArray[index + 2];
         }
@@ -43,6 +35,22 @@ uint16_t Score(void)
         score += rollsArray[i];
 
         AddSpareBonuses(i);
+
+        if(i % 2 == 0)
+        {
+            if(rollsArray[i] == 10)
+            {
+                score += rollsArray[i + 2];
+                if(rollsArray[i + 2] == 10)
+                {
+                    score += rollsArray[i + 4];
+                }
+                else
+                {
+                    score += rollsArray[i + 3];
+                }
+            }
+        }
     }
 
 
