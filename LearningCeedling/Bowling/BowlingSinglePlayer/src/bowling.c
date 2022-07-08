@@ -28,6 +28,25 @@ static void AddSpareBonuses(uint8_t index)
     }
 }
 
+static void AddStrikeBonuses(uint8_t index)
+{
+    if(index % 2 == 0)
+    {
+        if(rollsArray[index] == 10)
+        {
+            score += rollsArray[index + 2];
+            if(rollsArray[index + 2] == 10)
+            {
+                score += rollsArray[index + 4];
+            }
+            else
+            {
+                score += rollsArray[index + 3];
+            }
+        }
+    }
+}
+
 uint16_t Score(void)
 {
     for(uint8_t i = 0; i < ROLLS_WITHOUT_BONUSES; i++)
@@ -35,22 +54,7 @@ uint16_t Score(void)
         score += rollsArray[i];
 
         AddSpareBonuses(i);
-
-        if(i % 2 == 0)
-        {
-            if(rollsArray[i] == 10)
-            {
-                score += rollsArray[i + 2];
-                if(rollsArray[i + 2] == 10)
-                {
-                    score += rollsArray[i + 4];
-                }
-                else
-                {
-                    score += rollsArray[i + 3];
-                }
-            }
-        }
+        AddStrikeBonuses(i);
     }
 
 
