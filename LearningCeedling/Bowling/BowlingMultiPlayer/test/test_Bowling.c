@@ -210,10 +210,11 @@ void test_spare_last_round(void)
         WholeTurn('0', '0', '0', '0', &expected_player_1, &expected_player_2);
     }
 
-    WholeTurn('5', '/', '9', '/', &expected_player_1, &expected_player_2);
-
+    expected_player_1 += PlayerTurn('5', '/');
     //Player 1 bonus roll for spare
     Roll('4');
+
+    expected_player_2 += PlayerTurn('9', '/');
     //Player 2 bonus roll for spare
     Roll('8');
 
@@ -236,10 +237,12 @@ void test_strike_last_round(void)
         WholeTurn('0', '0', '0', '0', &expected_player_1, &expected_player_2);
     }
 
-    WholeTurn('X', '0', '5', '2', &expected_player_1, &expected_player_2);
-
+    Roll('X');
+    expected_player_1 += 10;
     //Player 1 bonus roll for strike
     expected_player_1 += PlayerTurn('7', '2');
+
+    expected_player_2 += PlayerTurn('5', '2');
 
     //Player 1
     TEST_ASSERT_EQUAL(expected_player_1, Score(0));
@@ -251,13 +254,16 @@ void test_only_9_spare_game(void)
 {
     uint16_t expected_player_1 = 0, expected_player_2 = 0;
 
-    for(uint8_t i = 0; i < 10; i++)
+    for(uint8_t i = 0; i < 9; i++)
     {
         WholeTurn('9', '/', '9', '/', &expected_player_1, &expected_player_2);
     }
 
+    expected_player_1 += PlayerTurn('9', '/');
     //Player 1 bonus rolls for strike
     Roll('9');
+
+    expected_player_2 += PlayerTurn('9', '/');
     //Player 2 bonus rolls for strike
     Roll('9');
 
@@ -271,12 +277,10 @@ void test_perfect_game(void)
 {
     uint16_t expected_player_1 = 0, expected_player_2 = 0;
 
-    for(uint8_t i = 0; i < 9; i++)
+    for(uint8_t i = 0; i < 10; i++)
     {
         WholeTurn('X', '0', 'X', '0', &expected_player_1, &expected_player_2);
     }
-
-    WholeTurn('X', '0', 'X', '0', &expected_player_1, &expected_player_2);
 
     //Player 1 bonus rolls for strike
     Roll('X');
@@ -291,3 +295,31 @@ void test_perfect_game(void)
     TEST_ASSERT_EQUAL(300, Score(1));
 }
 
+void test_random_game(void)
+{
+    uint16_t expected_player_1 = 0, expected_player_2 = 0;
+
+    WholeTurn('5', '/', '7', '/', &expected_player_1, &expected_player_2); 
+    WholeTurn('4', '0', 'X', '0', &expected_player_1, &expected_player_2);
+    WholeTurn('8', '1', 'X', '0', &expected_player_1, &expected_player_2);
+    WholeTurn('X', '0', '8', '1', &expected_player_1, &expected_player_2);
+    WholeTurn('0', '/', '9', '/', &expected_player_1, &expected_player_2);
+    WholeTurn('X', '0', '8', '1', &expected_player_1, &expected_player_2);
+    WholeTurn('X', '0', 'X', '0', &expected_player_1, &expected_player_2);
+    WholeTurn('X', '0', '9', '/', &expected_player_1, &expected_player_2);
+    WholeTurn('4', '/', '8', '/', &expected_player_1, &expected_player_2);
+
+
+    Roll('X');
+    //Player 1 bonus rolls for strike
+    Roll('X');
+    Roll('5');
+
+
+    PlayerTurn('6', '1');
+
+    //Player 1
+    TEST_ASSERT_EQUAL(186, Score(0));
+    //Player 2
+    TEST_ASSERT_EQUAL(164, Score(1));
+}

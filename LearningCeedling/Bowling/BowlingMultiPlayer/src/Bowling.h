@@ -26,6 +26,7 @@ typedef struct
     uint8_t rollNumber;
     uint8_t lastRollPins;
     BonusState_t bonus;
+    uint8_t bonusRolls;
 }Player_t;
 
 void GameReset(void);

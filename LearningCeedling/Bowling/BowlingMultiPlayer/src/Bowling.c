@@ -12,6 +12,7 @@ void GameReset(void)
         players[i].lastRollPins = 0;
         players[i].rollNumber = 0;
         players[i].bonus = NoBonus;
+        players[i].bonusRolls = 0;
     }
 }
 
@@ -47,6 +48,24 @@ static void rememberFirstRollInTurn(uint8_t pins)
     }
 }
 
+static void assignBonusRolls(char pins)
+{
+    if(players[player].rollNumber == LAST_REGULAR_ROLL)
+    {
+        if(pins == '/')
+        {
+            players[player].bonusRolls = 1;
+        }
+    }
+    else if(players[player].rollNumber == LAST_REGULAR_ROLL - 1)
+    {
+        if(pins == 'X')
+        {
+            players[player].bonusRolls = 2;
+        }
+    }
+}
+
 static void assignPlayerAndRollNumber(char pins)
 {
     if(pins == 'X')
@@ -58,7 +77,11 @@ static void assignPlayerAndRollNumber(char pins)
         players[player].rollNumber++;
     }
 
-    if(players[player].rollNumber % 2 == 0 || (players[player].rollNumber > LAST_REGULAR_ROLL && players[player].bonus < DoubleTwoRound))
+    if(players[player].bonusRolls > 0)
+    {
+        players[player].bonusRolls--;
+    }
+    else if(players[player].rollNumber > LAST_REGULAR_ROLL)
     {
         player++;
         if(player >= NUMBER_OF_PLAYERS)
@@ -66,58 +89,69 @@ static void assignPlayerAndRollNumber(char pins)
             player = 0;
         }
     }
+    else
+    {
+        if(players[player].rollNumber % 2 == 0)
+        {
+            player++;
+            if(player >= NUMBER_OF_PLAYERS)
+            {
+                player = 0;
+            }
+        }
+    }
 }
 
 static void assignBonusState(char bonus)
 {
-    if(bonus == '/')
+    if(players[player].rollNumber < LAST_REGULAR_ROLL - 1)
     {
-        if(players[player].bonus == NoBonus)
+        if(bonus == '/')
         {
-            players[player].bonus = DoubleOneRound;
+            if(players[player].bonus == NoBonus)
+            {
+                players[player].bonus = DoubleOneRound;
+            }
+            else
+            {
+                players[player].bonus = TripleOneRound;
+            }
         }
-        else
+        else if(bonus == 'X')
         {
-            players[player].bonus = TripleOneRound;
-        }
-    }
-    else if(bonus == 'X')
-    {
-        if(players[player].bonus == NoBonus)
-        {
-            players[player].bonus = DoubleTwoRound;
-        }
-        else
-        {
-            players[player].bonus = TripleOneRound;
+            if(players[player].bonus == NoBonus)
+            {
+                players[player].bonus = DoubleTwoRound;
+            }
+            else
+            {
+                players[player].bonus = TripleOneRound;
+            }
         }
     }
 }
 
 static void assignPointsForBonus(uint8_t pins)
 {
-    if(players[player].rollNumber <= LAST_REGULAR_ROLL)
+    switch(players[player].bonus)
     {
-        switch(players[player].bonus)
-        {
-            case TripleOneRound:
-                players[player].score += (2 * pins);
-                players[player].bonus = DoubleOneRound;
-                break;
+        case TripleOneRound:
+            players[player].score += (2 * pins);
+            players[player].bonus = DoubleOneRound;
+            break;
 
-            case DoubleTwoRound:
-                players[player].score += pins;
-                players[player].bonus = DoubleOneRound;
-                break;
+        case DoubleTwoRound:
+            players[player].score += pins;
+            players[player].bonus = DoubleOneRound;
+            break;
 
-            case DoubleOneRound:
-                players[player].score += pins;
-                players[player].bonus = NoBonus;
-                break;
+        case DoubleOneRound:
+            players[player].score += pins;
+            players[player].bonus = NoBonus;
+            break;
 
-            default:
-                break;
-        }
+        default:
+            break;
     }
 }
 
@@ -131,6 +165,8 @@ void Roll(char rollOutput)
     assignPointsForBonus(pins);
 
     assignBonusState(rollOutput);
+
+    assignBonusRolls(rollOutput);
 
     printf("player: %d, roll: %d, score: %d\n", player, players[player].rollNumber, players[player].score);
 
