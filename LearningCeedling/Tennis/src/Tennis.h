@@ -2,21 +2,17 @@
 #define TENNIS_H
 
 #include "stdint.h"
+#include "stdbool.h"
 #include "stdio.h"
 
 #define NUMBER_OF_PLAYERS 2
 
 typedef enum
 {
-    None,
     Player_1,
-    Player_2
+    Player_2,
+    None
 }Player_t;
-
-typedef enum
-{
-    
-}Points_t;
 
 typedef struct
 {
