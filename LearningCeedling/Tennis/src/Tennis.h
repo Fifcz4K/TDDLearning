@@ -6,6 +6,11 @@
 #include "stdio.h"
 
 #define NUMBER_OF_PLAYERS 2
+#define GEMS_TO_WIN 6
+#define SETS_TO_WIN 2
+#define GEMS_ADVANTAGE 2
+#define POINTS_TO_WIN_TIE_BREAK 7
+#define ADVANTAGE_IN_TIE_BREAK 2
 
 typedef enum
 {
@@ -25,6 +30,7 @@ typedef struct
 void GameReset(void);
 void WinBall(Player_t winner);
 Score_t* Score(Player_t player);
+Player_t Winner(void);
 
 
 #endif // TENNIS_H
