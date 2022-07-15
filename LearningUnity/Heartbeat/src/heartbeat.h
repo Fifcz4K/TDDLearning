@@ -6,9 +6,9 @@
 #include "stdint.h"
 #include "m_gpio.h"
 
-#define STATE_PERIOD 100
+#define CORRECT_SIGNAL_PERIOD 100
 #define CHECK_PERIOD 10
-#define PERFECT_SIGNAL_COUNTER (STATE_PERIOD / CHECK_PERIOD)
+#define CORRECT_SIGNAL_COUNTER (CORRECT_SIGNAL_PERIOD / CHECK_PERIOD)
 #define HEARTBEAT_TOLERANCE 1
 
 void HeartbeatInit(void);
