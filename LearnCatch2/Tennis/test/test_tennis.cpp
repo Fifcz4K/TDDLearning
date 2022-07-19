@@ -2,7 +2,7 @@
 
 extern "C"
 {
-    #include "../src/tennis.h"
+    #include "tennis.h"
 }
 
 static void WinGem(Player_t player)
